@@ -1,0 +1,114 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap");
+
+:root {
+--title-text-color: rgb(80, 83, 96);
+--text-color: rgb(55, 63, 69);
+--gray: rgb(214, 215, 216);
+--grayDark: rgb(136, 136, 137);
+--white: rgb(250, 251, 254);
+--mainMaxWidth: 850px;
+--mainMaxHeight: 650px;
+}
+
+body {
+font-family: "Montserrat", sans-serif;
+padding: 0 10px;
+}
+
+/********************************************
+           CHART 
+********************************************/
+.chart-container {
+position: relative;
+background-color: var(--white);
+border: 1px solid var(--gray);
+border-radius: 4px;
+padding: 15px;
+margin-top: 15px;
+max-width: var(--mainMaxWidth);
+max-height: var(--mainMaxHeight);
+margin: 30px auto 0 auto;
+text-align: center;
+box-shadow: 4px 4px 10px var(--gray);
+}
+/********** CHART TITLE AND LEGEND *********/
+#chart-title {
+font-size: 22px;
+font-weight: 600;
+letter-spacing: 1px;
+color: var(--title-text-color);
+margin: 20px 0 20px 0;
+padding: 0;
+}
+#date-update {
+font-size: 12px;
+position: absolute;
+color: var(--grayDark);
+top: 4px;
+right: 4px;
+}
+#chart-subtitle {
+margin: 10px 0 18px 0;
+font-size: 15px;
+letter-spacing: 1px;
+color: var(--text-color);
+}
+#chart-legend {
+color: var(--text-color);
+list-style-type: none;
+margin: 20px 0 12px 0;
+padding: 0;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: center;
+}
+.chart-legend-item {
+display: flex;
+margin: 0px 8px 12px 8px;
+padding: 0;
+align-items: center;
+}
+.chart-legend-item-box {
+border: 1px solid var(--gray);
+margin-right: 5px;
+}
+.chart-legend-item-rect {
+width: 25px;
+height: 12px;
+border-radius: 2px;
+}
+.chart-legend-item-rhombus {
+width: 12px;
+height: 12px;
+border-radius: 2px;
+transform: rotate(-45deg);
+}
+.chart-legend-item-circle {
+width: 14px;
+height: 14px;
+border-radius: 50%;
+}
+.chart-legend-item-box:hover,
+.chart-legend-item-rhombus:hover {
+background-color: var(--hoverColor, red) !important;
+border-color: var(--hoverColor, green) !important;
+}
+.chart-legend-item-box:hover + .chart-legend-item-label {
+color: black;
+font-weight: 500;
+}
+.chart-legend-item-label {
+font-size: 14px;
+padding: 0 0 2px 0;
+margin: 0;
+}
+
+/********** CHART CANVAS *********/
+.canvas-container {
+position: relative;
+}
+canvas {
+width: 100%;
+}

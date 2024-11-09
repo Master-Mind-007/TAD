@@ -1,0 +1,436 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="row">
+      
+    {% for config in configs %}
+
+        <!-- New Status Card -->
+        <div class="col-md-4 grid-margin">
+          <div class="card h-100">
+            <div class="wrapper">
+              <div class="card-body text-center text-container gradient">
+              
+                <!--Upper Section of Card-->
+                <div class="d-flex flex-column text-center">
+                  <h2 class="mb-0 font-weight-bold">{{config|upper}}</h2>
+                  <div class="info-container">
+                    <p class="text-muted mb-0 font-weight-medium"><span class="info-label">Total Runs:</span> <span class="info-value">{{config.runs}}</span></p>
+                    <p class="text-muted mb-0 font-weight-medium"><span class="info-label">Success:</span> <span class="info-value">{{config.success}}</span></p>
+                    <p class="text-muted mb-0 font-weight-medium"><span class="info-label">Fail:</span> <span class="info-value">{{config.fails}}</span></p>
+                    <p class="text-muted mb-0 font-weight-medium"><span class="info-label">Balance:</span> <span class="info-value">{{config.totalBalance}}</span></p>
+                    <p class="text-muted mb-0 font-weight-medium">
+                      <span class="info-label">Status:</span>
+                      <span class="info-value">
+                        <span class="status-badge status-{{['running', 'pending', 'failure', 'building']|random}}">
+                          {{['Running', 'Pending', 'Failure', 'Building']|random}}
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                
+                <!-- Horizontal Line -->
+                <hr class="section-divider">
+                
+                <!--Lower Section of Card-->
+                <div class="expanded-content">
+                  <h6 class="card-title mt-4 edit-config-title">Edit Configuration</h6>
+                  <form id="config-form-{{loop.index}}" class="text-left">
+                    <div class="form-group">
+                      <label for="config-name-{{loop.index}}">Configuration Name</label>
+                      <input type="text" class="form-control" id="config-name-{{loop.index}}" value="Config {{loop.index}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="pyrogram-function-{{loop.index}}">Pyrogram Function</label>
+                      <input type="text" class="form-control" id="pyrogram-function-{{loop.index}}" value="my_pyrogram_function">
+                    </div>
+                    <div class="form-group mt-4">
+                      <button type="submit" class="btn btn-primary save-btn" data-form-id="{{loop.index}}">Save Changes</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Show Button -->
+              <button class="show-btn" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+                  <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+  {% endfor %}
+  
+</div>
+
+<div class="row ">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Order Status</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  <div class="form-check form-check-muted m-0">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" id="check-all">
+                    </label>
+                  </div>
+                </th>
+                <th> Client Name </th>
+                <th> Order No </th>
+                <th> Product Cost </th>
+                <th> Project </th>
+                <th> Payment Mode </th>
+                <th> Start Date </th>
+                <th> Payment Status </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="form-check form-check-muted m-0">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <img src="{{ url_for('static', filename='assets/images/faces/face1.jpg') }}" alt="image" />
+                  <span class="ps-2">Pavel Durov</span>
+                </td>
+                <td> 02312 </td>
+                <td> $14,500 </td>
+                <td> Dashboard </td>
+                <td> Credit card </td>
+                <td> 04 Dec 2019 </td>
+                <td>
+                  <div class="badge badge-outline-success">Approved</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-check form-check-muted m-0">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <img src="{{ url_for('static', filename='assets/images/faces/face2.jpg') }}" alt="image" />
+                  <span class="ps-2">Estella Bryan</span>
+                </td>
+                <td> 02312 </td>
+                <td> $14,500 </td>
+                <td> Website </td>
+                <td> Cash on delivered </td>
+                <td> 04 Dec 2019 </td>
+                <td>
+                  <div class="badge badge-outline-warning">Pending</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-check form-check-muted m-0">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <img src="{{ url_for('static', filename='assets/images/faces/face5.jpg') }}" alt="image" />
+                  <span class="ps-2">Lucy Abbott</span>
+                </td>
+                <td> 02312 </td>
+                <td> $14,500 </td>
+                <td> App design </td>
+                <td> Credit card </td>
+                <td> 04 Dec 2019 </td>
+                <td>
+                  <div class="badge badge-outline-danger">Rejected</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-check form-check-muted m-0">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <img src="{{ url_for('static', filename='assets/images/faces/face3.jpg') }}" alt="image" />
+                  <span class="ps-2">Peter Gill</span>
+                </td>
+                <td> 02312 </td>
+                <td> $14,500 </td>
+                <td> Development </td>
+                <td> Online Payment </td>
+                <td> 04 Dec 2019 </td>
+                <td>
+                  <div class="badge badge-outline-success">Approved</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="form-check form-check-muted m-0">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <img src="{{ url_for('static', filename='assets/images/faces/face4.jpg') }}" alt="image" />
+                  <span class="ps-2">Sallie Reyes</span>
+                </td>
+                <td> 02312 </td>
+                <td> $14,500 </td>
+                <td> Website </td>
+                <td> Credit card </td>
+                <td> 04 Dec 2019 </td>
+                <td>
+                  <div class="badge badge-outline-success">Approved</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+/* ... previous styles ... */
+
+.card {
+border-radius: 15px;
+overflow: hidden;
+min-height: 300px; /* Increased minimum height */
+width: 100%;
+
+}
+
+.wrapper {
+background-color: #191c24;
+position: relative;
+height: 200%;
+color: white;
+border-radius: 15px;
+padding: 20px; /* Added padding */
+}
+
+.text-container {
+font-family: Helvetica, Arial, sans-serif;
+line-height: 1.75rem;
+max-height: 200px;
+overflow: hidden;
+padding: 10px 30px 60px 30px;
+transition: max-height .5s ease;
+border-radius: 15px;
+}
+
+.wrapper {
+background-color: 191c24;
+position: relative;
+height: 100%;
+color: white;
+padding: 20px; /* Added padding */
+}
+
+.text-container {
+font-family: Helvetica, Arial, sans-serif;
+line-height: 1.75rem;
+max-height: 200px;
+overflow: hidden;
+padding: 10px 30px 60px 30px;
+transition: max-height .5s ease;
+}
+
+.text-container.show {
+max-height: 2000px;
+}
+
+
+
+.show-btn {
+box-shadow: 0 2px 5px rgba(0,0,0,.6);
+background-color: #191c24;
+border: none;
+border-radius: 5px; /* Changed from 100% to 5px for rectangular shape */
+bottom: 20px;
+color: #fff;
+cursor: pointer;
+height: 40px;
+left: 50%;
+transform: translateX(-50%); /* Center the button horizontally */
+position: absolute;
+transition: background-color .25s ease, transform .25s ease;
+width: 80px; /* Increased width for a rectangular shape */
+padding: 0 10px; /* Added horizontal padding */
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 10;
+}
+
+.show-btn:hover {
+background-color: #252b3e;
+}
+
+.show-btn.rotate svg {
+transform: rotate(180deg);
+}
+
+.show-btn svg {
+transition: transform .25s ease;
+}
+
+.expanded-content {
+display: none;
+}
+
+.text-container.show .expanded-content {
+display: block;
+}
+
+.save-btn {
+margin-bottom: 40px;
+}
+
+/* ... rest of the styles ... */
+
+.save-btn {
+  margin-bottom: 40px;
+  transition: all 0.3s ease;
+}
+
+.save-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.edit-config-title {
+  font-weight: bold;
+  text-align: left;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.section-divider {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+  margin: 20px 0;
+}
+
+.expanded-content {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: bold;
+  color: white;
+}
+
+.status-running { background-color: #17a2b8; }
+.status-pending { background-color: #ffc107; }
+.status-failure { background-color: #dc3545; }
+.status-building { background-color: #6c757d; }
+
+.save-btn {
+  margin-bottom: 40px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.info-container p {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.info-label {
+  text-align: left;
+  flex: 1;
+}
+
+.info-value {
+  text-align: right;
+  flex: 1;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Existing code for show/hide functionality
+  document.querySelectorAll('.show-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+      var wrapper = this.closest('.wrapper');
+      var textContainer = wrapper.querySelector('.text-container');
+      textContainer.classList.toggle('show');
+      this.classList.toggle('rotate');
+    });
+  });
+
+  // New code for save button functionality
+  document.querySelectorAll('.save-btn').forEach(function(button) {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      var formId = this.getAttribute('data-form-id');
+      var form = document.getElementById('config-form-' + formId);
+      
+      // Here you would typically send the form data to the server
+      // For this example, we'll just simulate a save operation
+      
+      this.textContent = 'Saving...';
+      this.disabled = true;
+
+      setTimeout(() => {
+        this.textContent = 'Saved!';
+        
+        setTimeout(() => {
+          // Refresh the page after 1 second
+          window.location.reload();
+        }, 1000);
+      }, 1000);
+    });
+  });
+});
+</script>
+
+{% endblock %}

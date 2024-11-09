@@ -1,0 +1,964 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .button-container button {
+    margin-right: 10px; /* Adjust as necessary */
+  }
+
+.custom-dropdown-menu {
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 0.25rem; /* Rounded corners */
+  padding: 0; /* Remove padding */
+}
+
+.dropdown-item {
+  display: flex; /* Align icon and text */
+  align-items: center; /* Center vertically */
+}
+
+.dropdown-item i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+.dropdown-divider {
+  margin: 0.5rem 0; /* Space around the divider */
+}
+
+.dropdown-toggle::after {
+  display: none; /* Hide the dropdown arrow */
+}
+
+.dropdown-toggle {
+  background: transparent; /* Make background transparent */
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+}
+
+.dropdown-toggle .mdi {
+  font-size: 24px; /* Adjust icon size */
+  color: #000; /* Change color as needed */
+}
+
+.dropdown-toggle:hover {
+  background: rgba(0, 0, 0, 0.1); /* Add hover effect */
+}
+
+.text-danger-glow {
+  color: #f84141;
+  text-shadow: 0 0 20px #f00, 0 0 30px #f00;
+}
+.text-success-glow {
+  color: #18f300;
+  text-shadow: 0 0 20px rgb(86, 248, 61), 0 0 30px rgb(86, 248, 61);
+}
+.blink {
+  animation: blinker 1s cubic-bezier(.5, 0, 1, 1) infinite alternate;  
+}
+@keyframes blinker {  
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+</style>
+
+
+<style>
+  /* Scoped popup styles for #phoneModal */
+  #phoneModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  #phoneModal .modal-content {
+    background-color: #000000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5vw 5vh;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    border: 1px solid #b7b6b6;
+    box-sizing: border-box;
+  }
+
+  /* Make text and input responsive */
+  #phoneModal h5,
+  #phoneModal t,
+  #phoneModal input {
+    font-size: 4vw;
+    text-align: center;
+  }
+
+  #phoneModal h5 {
+    font-size: 5vw; /* Larger heading */
+  }
+
+  /* Adjust button styling */
+  #phoneModal .btn {
+    padding: 1vh 0;
+    font-size: 4vw;
+  }
+
+  #phoneModal .btn-outline-success {
+    border: 2px solid #28a745;
+  }
+
+  #phoneModal .btn-outline-warning {
+    border: 2px solid #ffab00;
+  }
+
+  /* Desktop-specific adjustments */
+  @media (min-width: 768px) {
+    #phoneModal .modal-content {
+      width: 50%;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    #phoneModal h5,
+    #phoneModal t,
+    #phoneModal input {
+      font-size: 16px;
+    }
+
+    #phoneModal .btn {
+      font-size: 16px;
+      padding: 10px 0;
+    }
+  }
+</style>
+
+<style>
+  /* Scoped popup styles for #fileUploadModal */
+  #fileUploadModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  #fileUploadModal .modal-content {
+    background-color: #000000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5vw 5vh;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    border: 1px solid #b7b6b6;
+    box-sizing: border-box;
+  }
+
+  /* Heading styles */
+  #fileUploadModal h5 {
+    font-size: 5vw;
+    text-align: center;
+  }
+
+  /* Drag and drop area styles */
+  #fileUploadModal #dropZone {
+    border: 2px dashed #b7b6b6;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+
+  #fileUploadModal #dropZone p {
+    font-size: 4vw;
+  }
+
+  /* File input button styling */
+  #fileUploadModal .btn {
+    padding: 1vh 0;
+    font-size: 4vw;
+  }
+
+  #fileUploadModal .btn-outline-success {
+    border: 2px solid #28a745;
+  }
+
+  #fileUploadModal .btn-outline-warning {
+    border: 2px solid #ffab00;
+  }
+
+  /* Desktop-specific adjustments */
+  @media (min-width: 768px) {
+    #fileUploadModal .modal-content {
+      width: 50%;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    #fileUploadModal h5, 
+    #fileUploadModal #dropZone p {
+      font-size: 16px;
+    }
+
+    #fileUploadModal .btn {
+      font-size: 16px;
+      padding: 10px 0;
+    }
+  }
+</style>
+<style>
+  .button-container button {
+    margin-right: 10px; /* Adjust as necessary */
+  }
+
+.custom-dropdown-menu {
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 0.25rem; /* Rounded corners */
+  padding: 0; /* Remove padding */
+}
+
+.dropdown-item {
+  display: flex; /* Align icon and text */
+  align-items: center; /* Center vertically */
+}
+
+.dropdown-item i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+.dropdown-divider {
+  margin: 0.5rem 0; /* Space around the divider */
+}
+
+.dropdown-toggle::after {
+  display: none; /* Hide the dropdown arrow */
+}
+
+.dropdown-toggle {
+  background: transparent; /* Make background transparent */
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+}
+
+.dropdown-toggle .mdi {
+  font-size: 24px; /* Adjust icon size */
+  color: #000; /* Change color as needed */
+}
+
+.dropdown-toggle:hover {
+  background: rgba(0, 0, 0, 0.1); /* Add hover effect */
+}
+</style>
+
+
+<style>
+  /* Scoped popup styles for #phoneModal */
+  #phoneModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  #phoneModal .modal-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5vw 5vh;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+   
+    box-sizing: border-box;
+ 
+  }
+
+  /* Make text and input responsive */
+  #phoneModal h5,
+  #phoneModal t,
+  #phoneModal input {
+    font-size: 4vw;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  #phoneModal h5 {
+    font-size: 5vw;
+  }
+
+  /* Adjust button styling */
+  #phoneModal .btn {
+    position: relative;
+    padding: 1vh 0;
+    font-size: 4vw;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+    border-right-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  #phoneModal .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: skewX(45deg) translateX(150%);
+    transition: transform 0.5s ease;
+    z-index: -1;
+  }
+
+  #phoneModal .btn:hover::before {
+    transform: skewX(45deg) translateX(-150%);
+  }
+
+  #phoneModal .btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+  }
+
+  #phoneModal .btn-outline-success {
+    border: 2px solid rgba(40, 167, 69, 0.7);
+  }
+
+  #phoneModal .btn-outline-warning {
+    border: 2px solid rgba(255, 171, 0, 0.7);
+  }
+
+  #phoneModal input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+  }
+
+  #phoneModal input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Desktop-specific adjustments */
+  @media (min-width: 768px) {
+    #phoneModal .modal-content {
+      width: 50%;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    #phoneModal h5,
+    #phoneModal t,
+    #phoneModal input {
+      font-size: 16px;
+    }
+
+    #phoneModal .btn {
+      font-size: 16px;
+      padding: 10px 0;
+    }
+  }
+
+  #phoneModal .input-wrapper {
+    margin-top: 20px;
+  }
+
+  #phoneModal .input-field {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  #phoneModal .input-select {
+    cursor: pointer;
+  }
+
+  #phoneModal .input-field-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #phoneModal .input-field-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  #phoneModal label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+  }
+
+  #phoneModal .arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(255, 255, 255, 0.6);
+  }
+
+  #phoneModal .select-wrapper {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #808080; /* Changed to grey */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 5px;
+    z-index: 1000;
+  }
+
+  #phoneModal .select-wrapper.active {
+    display: block;
+  }
+
+  #phoneModal .select-wrapper ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #phoneModal .select-wrapper li {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #ffffff; /* Changed text color to white for better contrast */
+  }
+
+  #phoneModal .select-wrapper li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  #phoneModal .emoji-image {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  #phoneModal .phone-code {
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.6);
+  }
+</style>
+
+<style>
+  /* Scoped popup styles for #fileUploadModal */
+  #fileUploadModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  #fileUploadModal .modal-content {
+    background-color: #000000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5vw 5vh;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    border: 1px solid #b7b6b6;
+    box-sizing: border-box;
+  }
+
+  /* Heading styles */
+  #fileUploadModal h5 {
+    font-size: 5vw;
+    text-align: center;
+  }
+
+  /* Drag and drop area styles */
+  #fileUploadModal #dropZone {
+    border: 2px dashed #b7b6b6;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+
+  #fileUploadModal #dropZone p {
+    font-size: 4vw;
+  }
+
+  /* File input button styling */
+  #fileUploadModal .btn {
+    padding: 1vh 0;
+    font-size: 4vw;
+  }
+
+  #fileUploadModal .btn-outline-success {
+    border: 2px solid #28a745;
+  }
+
+  #fileUploadModal .btn-outline-warning {
+    border: 2px solid #ffab00;
+  }
+
+  /* Desktop-specific adjustments */
+  @media (min-width: 768px) {
+    #fileUploadModal .modal-content {
+      width: 50%;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    #fileUploadModal h5, 
+    #fileUploadModal #dropZone p {
+      font-size: 16px;
+    }
+
+    #fileUploadModal .btn {
+      font-size: 16px;
+      padding: 10px 0;
+    }
+  }
+</style>
+<div class="content-wrapper">
+  <div class="page-header">
+    <h3 class="page-title"> Account Manager </h3>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Account</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Account Manager</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="card-title">Accounts</h4>
+              <p class="card-description">Configure Accounts</p>
+            </div>
+            
+            <!-- Buttons aligned to the right -->
+            <div class="button-container">
+              <button type="button" class="btn btn-outline-success btn-icon-text" style="border: 2px solid #28a745;" id="addButton">
+                <i class="mdi mdi-file-check btn-icon-append"></i> Add
+              </button>
+              
+              <button type="button" class="btn btn-outline-info btn-icon-text" style="border: 2px solid #8f5fe8;" id="openUploadModal">
+                  <i class="mdi mdi-upload btn-icon-prepend"></i> Upload 
+              </button>
+              <button type="button" onclick="refreshAccounts()" class="btn btn-outline-warning btn-icon-text" style="border: 2px solid #ffab00;">
+                  <i class="mdi mdi-reload btn-icon-prepend"></i> Reload
+              </button>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal-dialog modal-dialog-centered flex-column" id="phoneModal">
+            <div class="modal-content">
+              <div class="mb-3">
+                <h5 class="text-center">Telegram Login</h5>
+                <t class="text-muted small text-center d-block">Enter Telegram Phone Number along with country code.</t>
+              </div>
+              <div class="input-wrapper">
+                <div class="input-field input-select">
+                  <div class="input-field-input" contenteditable="true" dir="auto" data-no-linebreaks="1">
+                    <span class="i18n">Select Country</span>
+                  </div>
+                  <div class="input-field-border"></div>
+                  <label><span class="i18n">Country</span></label>
+                  <span class="arrow arrow-down"></span>
+                  <div class="select-wrapper">
+                    <ul>
+                      <!-- Add country list items here, similar to the example provided -->
+                      <li dir="auto">
+                        <img src="assets/img/emoji/1f1e6-1f1f1.png" class="emoji emoji-image" alt="🇦🇱">
+                        <span class="i18n" data-default-name="Albania">Albania</span>
+                        <span class="phone-code">+355</span>
+                      </li>
+                      <!-- Add more country items -->
+                    </ul>
+                  </div>
+                </div>
+                <div class="input-field input-field-phone">
+                  <div class="input-field-input" contenteditable="true" dir="auto" data-no-linebreaks="1" inputmode="decimal" data-left-pattern=" ‒‒ ‒‒‒ ‒‒‒‒">+355</div>
+                  <div class="input-field-border"></div>
+                  <label><span class="i18n">Phone Number</span></label>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-success w-100 mt-2 mx-2" id="submitPhone">Login</button>
+                <button type="button" class="btn btn-outline-warning w-100 mt-2 mx-2" id="closeModal">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- File Upload Modal -->
+          <div class="modal-dialog modal-dialog-centered flex-column" id="fileUploadModal">
+            <div class="modal-content">
+              <div class="mb-3">
+                <h5 class="text-center">Upload Your File</h5>
+              </div>
+            
+            <!-- Drag and Drop area -->
+            <div id="dropZone" class="mb-3">
+              <p class="text-muted small text-center d-block">Drag and Drop file here or click to browse</p>
+            </div>
+            
+            <!-- Hidden input to select file -->
+            <input type="file" id="fileInput" style="display:none;" />
+
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-outline-success w-100 mt-2 mx-2" id="uploadFile">Upload</button>
+              <button type="button" class="btn btn-outline-warning w-100 mt-2 mx-2" id="closefModal">Cancel</button>
+            </div>
+          </div>
+        </div>
+          <div class="table-responsive">
+            <table class="table table-hover mb-3 text-center">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>
+                    <div class="form-check form-check-muted m-0">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="check-all" value="">
+                      </label>
+                    </div>
+                  </th>
+                  <th>Serial No.</th>
+                  <th>User ID</th>
+                  <th>Name</th>
+                  <th>Username</th>
+                  <th>Premium</th>
+                  <th>DC</th>
+                  <th>Phone Number</th>
+                  <th>Status</th>
+                  <th>Last Sync</th>
+                </tr>
+              </thead>
+              <tbody id="accountsTableBody">
+                {% include "accounts_table.html" %}
+              </tbody>
+            </table>
+            
+            <!-- Actions for selected items -->
+            <div class="actions-section">
+              <div class="actions-container d-flex justify-content-between">
+                <button class="btn btn-primary w-100 mx-2" onclick="performBulkAction('sync')">Sync</button>
+                <button class="btn btn-secondary w-100 mx-2" onclick="performBulkAction('reconnect')">Reconnect</button>
+                <button class="btn btn-warning w-100 mx-2" onclick="performBulkAction('deactivate')">Deactivate</button>
+                <button class="btn btn-danger w-100 mx-2" onclick="performBulkAction('delete')">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// Get references to phone modal elements
+const phoneModal = document.getElementById('phoneModal');
+const addButton = document.getElementById('addButton');
+const submitPhone = document.getElementById('submitPhone');
+const closeModal = document.getElementById('closeModal');
+const phoneNumberInput = document.getElementById('phoneNumber');
+
+// Show the phone modal when the "Add" button is clicked
+addButton.addEventListener('click', () => {
+  phoneModal.style.display = 'block';
+});
+
+// Close the phone modal when the "Cancel" button is clicked
+closeModal.addEventListener('click', () => {
+  phoneModal.style.display = 'none';
+});
+
+// Handle phone number submission
+submitPhone.addEventListener('click', () => {
+  const phoneNumber = phoneNumberInput.value;
+  if (phoneNumber) {
+    alert(`Phone Number Submitted: ${phoneNumber}`);
+    phoneModal.style.display = 'none'; // Close the modal
+  } else {
+    alert('Please enter a phone number');
+  }
+});
+
+// Close the phone modal when clicking outside of it
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('phoneModal');
+  if (modal.style.display === 'block' && !modal.contains(event.target) && event.target !== addButton) {
+    modal.style.display = 'none';
+  }
+});
+
+
+  // Get references to modal, buttons, and drop zone
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const fileUploadModal = document.getElementById('fileUploadModal');
+  const closefModal = document.getElementById('closefModal');
+  const openUploadModal = document.getElementById('openUploadModal');
+
+  // Open the modal when the "Open File Upload Modal" button is clicked
+  openUploadModal.addEventListener('click', () => {
+    fileUploadModal.style.display = 'block';
+  });
+
+  // Open file input when clicking on drop zone
+  dropZone.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  // Handle file drag over event
+  dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.style.backgroundColor = '#333333'; // Visual indicator
+  });
+
+  // Handle file drag leave event
+  dropZone.addEventListener('dragleave', () => {
+    dropZone.style.backgroundColor = ''; // Reset background
+  });
+
+  // Handle file drop event
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.style.backgroundColor = ''; // Reset background
+    const files = e.dataTransfer.files;
+    handleFile(files);
+  });
+
+  // Handle file selection via input
+  fileInput.addEventListener('change', (e) => {
+    const files = e.target.files;
+    handleFile(files);
+  });
+
+  // Function to handle the file(s) selected or dropped
+  function handleFile(files) {
+    if (files.length > 0) {
+      console.log('File selected:', files[0].name);
+      // Handle the file upload logic here
+    }
+  }
+  // Close the modal when clicking outside of it
+// Close the modal when clicking outside of it
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('fileUploadModal');
+  if (modal.style.display === 'block' && !modal.contains(event.target) && event.target !== openUploadModal) {
+    modal.style.display = 'none';
+  }
+});
+
+  // Close modal on cancel
+  closefModal.addEventListener('click', () => {
+    fileUploadModal.style.display = 'none';
+  });
+  
+  function deleteUser(userId) {
+      return fetch('/api/v1/account/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userid: userId }) // Use userId here
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .catch(error => {
+        console.error('Error deleting item:', error);
+        //alert('An error occurred while deleting user:', userId);
+      });
+  }
+
+  function syncUser(userId) {
+      return fetch('/api/v1/account/sync', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userid: userId }) // Use userId here
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .catch(error => {
+        console.error('Error deleting item:', error);
+        //alert('An error occurred while syncing user:', userId);
+      });
+  }
+
+  function initializeCheckboxListeners() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    console.log(`Found ${checkboxes.length} checkboxes`);
+    checkboxes.forEach(checkbox => {
+      console.log(`Attaching listener to checkbox with ID: ${checkbox.id}`);
+      checkbox.addEventListener('change', (event) => {
+        // Handle checkbox change event
+        console.log(`Checkbox ${event.target.id} changed: ${event.target.checked}`);
+      });
+    });
+  }
+
+  // Function to refresh the accounts table
+  function refreshAccountsTable() {
+    fetch('/raw/accounts')
+      .then(response => response.text())
+      .then(data => {
+        console.log('Fetched data:', data); // Log the fetched data
+        const accountsTableBody = document.getElementById('accountsTableBody');
+        accountsTableBody.innerHTML = data;
+        initializeCheckboxListeners(); // Reinitialize checkbox listeners
+      })
+      .catch(error => console.error('Error fetching accounts:', error));
+  }
+
+  // Call initializeCheckboxListeners on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeCheckboxListeners();
+  });
+
+  // Function to refresh the accounts table
+  function refreshAccounts() {
+    fetch('/raw/refresh')
+      .then(response => response.text())
+      .then(data => {
+        console.log('Fetched data:', data); // Log the fetched data
+        const accountsTableBody = document.getElementById('accountsTableBody');
+        accountsTableBody.innerHTML = data;
+      })
+      .catch(error => console.error('Error fetching accounts:', error));
+  }
+
+  function performAction(userId, action) {
+    if (event) {
+      event.preventDefault(); // Prevent default behavior
+    }
+    // Perform the action based on the selected option
+    switch(action) {
+      case 'sync':
+        console.log(`Syncing user ${userId}`);
+        syncUser(userId).then(() => refreshAccountsTable());
+        break;
+      case 'reconnect':
+        console.log(`Reconnecting user ${userId}`);
+        // Add your reconnect logic here
+        break;
+      case 'delete':
+        console.log(`Deleting user ${userId}`);
+        deleteUser(userId).then(() => refreshAccountsTable());
+        // Add your reconnect logic here
+        break;
+      case 'deactivate':
+        console.log(`Deactivating user ${userId}`);
+        // Add your deactivate logic here
+        break;
+      default:
+        console.log(`Unknown action ${action} for user ${userId}`);
+    }
+  }
+  
+  function getSelectedItems() {
+    const selectedItems = [];
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    checkboxes.forEach(checkbox => {
+      selectedItems.push(checkbox.value);
+    });
+    return selectedItems;
+  }
+
+  function performBulkAction(action) {
+    const selectedItems = getSelectedItems();
+    if (selectedItems.length === 0) {
+      alert('No items selected.');
+      return;
+    }
+
+    const promises = selectedItems.map(userId => {
+      if (userId !== "") {
+        switch(action) {
+          case 'sync':
+            console.log(`Syncing user ${userId}`);
+            return syncUser(userId);
+          case 'reconnect':
+            console.log(`Reconnecting user ${userId}`);
+            // Add your reconnect logic here
+            break;
+          case 'deactivate':
+            console.log(`Deactivating user ${userId}`);
+            // Add your deactivate logic here
+            break;
+          case 'delete':
+            console.log(`Deleting user ${userId}`);
+            return deleteUser(userId);
+          default:
+            console.log(`Unknown action ${action}`);
+        }
+      }
+    });
+
+    Promise.all(promises).then(refreshAccountsTable);
+  }
+
+
+
+</script>
+
+{% endblock %}

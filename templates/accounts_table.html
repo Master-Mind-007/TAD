@@ -1,0 +1,55 @@
+{% for account in accounts %}
+<tr>
+  <td>
+    <div class="badge"></div>
+    <i class="fa fa-circle {% if account.running %}text-success-glow{% else %}text-danger-glow{% endif %} blink"></i>
+  </td>
+  <td>
+    <div class="form-check form-check-success form-check-muted m-0">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" id="selectUser{{account.id}}" value="{{account.id}}">
+      </label>
+    </div>
+  </td>
+  <td>{{loop.index}}</td>
+  <td>{{account.id}}</td>
+  <td>{{account.first_name}} {{account.last_name}}</td>
+  <td>{{account.username}}</td>
+  <td>{{account.is_premium}}</td>
+  <td>{{account.dc_id}}</td>
+  <td>{{account.phone_number}}</td>
+  <td>
+    <div class="badge {{ ('badge-outline-danger' if account.status == 'OFFLINE' else 'badge-outline-success') }}">
+      {{account.status}}
+    </div>
+  </td>
+  <td>
+    {% set last_sync = account.last_sync %}
+    {% set now = current_time %}
+    {% set time_ago = now - last_sync %}
+    {% if time_ago.seconds < 60 %}
+      {{ time_ago.seconds }} seconds ago
+    {% elif time_ago.seconds < 3600 %}
+      {{ time_ago.seconds // 60 }} minutes ago
+    {% elif time_ago.seconds < 86400 %}
+      {{ time_ago.seconds // 3600 }} hours ago
+    {% else %}
+      {{ time_ago.days }} days ago
+    {% endif %}
+  </td>
+  <td>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{account.id}}" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background: transparent;">
+        <span class="mdi mdi-dots-vertical" style="color:#ccc"></span>
+      </button>
+      <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownMenuButton{{account.id}}">
+        <li><a class="dropdown-item" onclick="performAction({{account.id}}, 'sync')"><i class="mdi mdi-sync"></i> Sync</a></li>
+        <li><a class="dropdown-item" onclick="performAction({{account.id}}, 'reconnect')"><i class="mdi mdi-refresh"></i> Reconnect</a></li>
+        <li><a class="dropdown-item" onclick="performAction({{account.id}}, 'deactivate')"><i class="mdi mdi-account-off"></i> Deactivate</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" onclick="performAction({{account.id}}, 'delete')"><i class="mdi mdi-delete"></i> Delete</a></li>
+      </ul>
+    </div>
+  </td>
+</tr>
+{% endfor %}

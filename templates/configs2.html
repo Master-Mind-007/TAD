@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+    {% for config in configs %}
+    <!-- New Status Card -->        
+      <div class="col-md-4 grid-margin">
+        <div class="card h-100 d-flex justify-content-center align-items-center">
+          <div class="card-body text-center">
+            <h5 class="font-weight-bold">Program Status</h5>
+            <div class="d-flex flex-column text-center">
+              <h2 class="mb-0 font-weight-bold">{{config}}</h2>
+              <p class="text-muted mb-0 font-weight-medium">Total Runs: 150</p>
+              <h6 class="text-muted font-weight-normal">Success: 120</h6>
+              <h6 class="text-muted font-weight-normal">Fail: 30</h6>
+            </div>
+            <button class="btn btn-link mt-3" type="button" data-toggle="collapse" data-target="#config3-details" aria-expanded="false" aria-controls="config3-details">
+              Read More
+            </button>
+          </div>
+          <div class="collapse" id="config3-details">
+            <div class="card-body">
+              <h6 class="card-title">Edit Configuration</h6>
+              <form>
+                <div class="form-group">
+                  <label for="config-name">Configuration Name</label>
+                  <input type="text" class="form-control" id="config-name" value="Config 3">
+                </div>
+                <div class="form-group">
+                  <label for="pyrogram-function">Pyrogram Function</label>
+                  <input type="text" class="form-control" id="pyrogram-function" value="my_pyrogram_function">
+                </div>
+                <button class="btn btn-primary">Save Changes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    <div class="row ">
+      <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Order Status</h4>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="form-check form-check-muted m-0">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" id="check-all">
+                        </label>
+                      </div>
+                    </th>
+                    <th> Client Name </th>
+                    <th> Order No </th>
+                    <th> Product Cost </th>
+                    <th> Project </th>
+                    <th> Payment Mode </th>
+                    <th> Start Date </th>
+                    <th> Payment Status </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="form-check form-check-muted m-0">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input">
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <img src="{{ url_for('static', filename='assets/images/faces/face1.jpg') }}" alt="image" />
+                      <span class="ps-2">Pavel Durov</span>
+                    </td>
+                    <td> 02312 </td>
+                    <td> $14,500 </td>
+                    <td> Dashboard </td>
+                    <td> Credit card </td>
+                    <td> 04 Dec 2019 </td>
+                    <td>
+                      <div class="badge badge-outline-success">Approved</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check form-check-muted m-0">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input">
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <img src="{{ url_for('static', filename='assets/images/faces/face2.jpg') }}" alt="image" />
+                      <span class="ps-2">Estella Bryan</span>
+                    </td>
+                    <td> 02312 </td>
+                    <td> $14,500 </td>
+                    <td> Website </td>
+                    <td> Cash on delivered </td>
+                    <td> 04 Dec 2019 </td>
+                    <td>
+                      <div class="badge badge-outline-warning">Pending</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check form-check-muted m-0">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input">
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <img src="{{ url_for('static', filename='assets/images/faces/face5.jpg') }}" alt="image" />
+                      <span class="ps-2">Lucy Abbott</span>
+                    </td>
+                    <td> 02312 </td>
+                    <td> $14,500 </td>
+                    <td> App design </td>
+                    <td> Credit card </td>
+                    <td> 04 Dec 2019 </td>
+                    <td>
+                      <div class="badge badge-outline-danger">Rejected</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check form-check-muted m-0">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input">
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <img src="{{ url_for('static', filename='assets/images/faces/face3.jpg') }}" alt="image" />
+                      <span class="ps-2">Peter Gill</span>
+                    </td>
+                    <td> 02312 </td>
+                    <td> $14,500 </td>
+                    <td> Development </td>
+                    <td> Online Payment </td>
+                    <td> 04 Dec 2019 </td>
+                    <td>
+                      <div class="badge badge-outline-success">Approved</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-check form-check-muted m-0">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input">
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <img src="{{ url_for('static', filename='assets/images/faces/face4.jpg') }}" alt="image" />
+                      <span class="ps-2">Sallie Reyes</span>
+                    </td>
+                    <td> 02312 </td>
+                    <td> $14,500 </td>
+                    <td> Website </td>
+                    <td> Credit card </td>
+                    <td> 04 Dec 2019 </td>
+                    <td>
+                      <div class="badge badge-outline-success">Approved</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  {% endblock %}

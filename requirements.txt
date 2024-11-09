@@ -1,0 +1,12 @@
+flask
+flask-sqlalchemy
+asyncio
+flask[async]
+coloredlogs
+verboselogs
+requests
+pyrogram
+python-dotenv
+phonenumbers
+tgcrypto
+pytz
