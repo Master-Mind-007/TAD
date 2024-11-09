@@ -10,3 +10,5 @@ python-dotenv
 phonenumbers
 tgcrypto
 pytz
+gunicorn
+random-user-agent
