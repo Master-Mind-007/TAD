@@ -808,4 +808,4 @@ if __name__ == '__main__':
 
     print(f"Time Taken: {end - start}")
     # Initialize Flask
-    app.run(debug=True, use_reloader=False, port=80)
+    app.run(debug=True, use_reloader=False, port=8080)
