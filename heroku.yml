@@ -4,4 +4,4 @@ build:
 run:
   worker: python3 app.py
 server:
-  port: 8080
+  port: 80
