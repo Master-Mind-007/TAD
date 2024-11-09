@@ -3,3 +3,5 @@ build:
     worker: Dockerfile
 run:
   worker: python3 app.py
+server:
+  port: 8080
